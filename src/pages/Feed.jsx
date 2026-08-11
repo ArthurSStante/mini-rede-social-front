@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import {
   getPosts,
   createPost,
+  updatePost,
   toggleLike,
   deletePost,
 } from "../services/postService";
@@ -79,6 +80,17 @@ const Feed = () => {
     }
   };
 
+  const handleEdit = async (postId, newContent) => {
+    try {
+      const response = await updatePost(postId, newContent);
+      setPosts((prevPosts) =>
+        prevPosts.map((post) => (post._id === postId ? response.data : post)),
+      );
+    } catch (err) {
+      setError("Erro ao editar post.");
+    }
+  };
+
   const handleDelete = async (postId) => {
     try {
       await deletePost(postId);
@@ -145,6 +157,7 @@ const Feed = () => {
                 post={post}
                 onLike={handleLike}
                 onDelete={handleDelete}
+                onEdit={handleEdit}
               />
             ))}
 

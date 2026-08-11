@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { Trash2 } from "lucide-react";
+import { Trash2, Pencil, X, Check } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import CommentSection from "./CommentSection";
 import ConfirmModal from "./ConfirmModal";
 
-const PostCard = ({ post, onLike, onDelete }) => {
+const PostCard = ({ post, onLike, onDelete, onEdit }) => {
   const { user } = useAuth();
   const [showComments, setShowComments] = useState(false);
   const [animateHeart, setAnimateHeart] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editContent, setEditContent] = useState(post.content);
 
   const isLiked = post.likes.includes(user?.id);
   const isOwner = post.author?._id === user?.id;
@@ -24,6 +26,17 @@ const PostCard = ({ post, onLike, onDelete }) => {
     setShowDeleteModal(false);
   };
 
+  const handleSaveEdit = () => {
+    if (!editContent.trim()) return;
+    onEdit(post._id, editContent);
+    setIsEditing(false);
+  };
+
+  const handleCancelEdit = () => {
+    setEditContent(post.content);
+    setIsEditing(false);
+  };
+
   return (
     <div className="bg-white rounded-lg shadow p-4 mb-4">
       <div className="flex justify-between items-start mb-2">
@@ -36,17 +49,50 @@ const PostCard = ({ post, onLike, onDelete }) => {
           </p>
         </div>
 
-        {isOwner && (
-          <button
-            onClick={() => setShowDeleteModal(true)}
-            className="flex items-center gap-1 text-xs text-red-500 hover:underline"
-          >
-            <Trash2 size={14} /> Excluir
-          </button>
+        {isOwner && !isEditing && (
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsEditing(true)}
+              className="flex items-center gap-1 text-xs text-blue-500 hover:underline"
+            >
+              <Pencil size={14} /> Editar
+            </button>
+            <button
+              onClick={() => setShowDeleteModal(true)}
+              className="flex items-center gap-1 text-xs text-red-500 hover:underline"
+            >
+              <Trash2 size={14} /> Excluir
+            </button>
+          </div>
         )}
       </div>
 
-      <p className="text-gray-800 mb-3">{post.content}</p>
+      {isEditing ? (
+        <div className="mb-3">
+          <textarea
+            value={editContent}
+            onChange={(e) => setEditContent(e.target.value)}
+            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            rows={3}
+          />
+          <div className="flex justify-end gap-2 mt-2">
+            <button
+              onClick={handleCancelEdit}
+              className="flex items-center gap-1 text-xs px-3 py-1 rounded border border-gray-300 hover:bg-gray-100"
+            >
+              <X size={14} /> Cancelar
+            </button>
+            <button
+              onClick={handleSaveEdit}
+              className="flex items-center gap-1 text-xs px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700"
+            >
+              <Check size={14} /> Salvar
+            </button>
+          </div>
+        </div>
+      ) : (
+        <p className="text-gray-800 mb-3">{post.content}</p>
+      )}
 
       <div className="flex items-center gap-4">
         <button
