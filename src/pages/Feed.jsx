@@ -11,6 +11,7 @@ import { LogOut } from "lucide-react";
 import PostCard from "../components/PostCard";
 import AvatarUpload from "../components/AvatarUpload";
 import ConfirmModal from "../components/ConfirmModal";
+import PostSkeleton from "../components/PostSkeleton";
 
 const Feed = () => {
   const { user, logout } = useAuth();
@@ -144,7 +145,11 @@ const Feed = () => {
         </form>
 
         {loadingPosts ? (
-          <p className="text-center text-gray-500">Carregando posts...</p>
+          <>
+            <PostSkeleton />
+            <PostSkeleton />
+            <PostSkeleton />
+          </>
         ) : posts.length === 0 ? (
           <p className="text-center text-gray-500">
             Nenhum post ainda. Seja o primeiro!

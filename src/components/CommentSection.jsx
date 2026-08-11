@@ -79,7 +79,10 @@ const CommentSection = ({ postId }) => {
       </form>
 
       {loading ? (
-        <p className="text-xs text-gray-500">Carregando comentários...</p>
+        <div className="space-y-2 animate-pulse">
+          <div className="h-3 bg-gray-200 rounded w-3/4"></div>
+          <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+        </div>
       ) : comments.length === 0 ? (
         <p className="text-xs text-gray-500">Nenhum comentário ainda.</p>
       ) : (
