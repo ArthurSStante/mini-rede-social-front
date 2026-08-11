@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
+import { Trash2 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import {
   getComments,
   createComment,
   deleteComment,
 } from "../services/commentService";
-import { Trash2 } from "lucide-react";
+import ConfirmModal from "./ConfirmModal";
 
 const CommentSection = ({ postId }) => {
   const { user } = useAuth();
@@ -13,6 +14,7 @@ const CommentSection = ({ postId }) => {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [commentToDelete, setCommentToDelete] = useState(null);
 
   const fetchComments = async () => {
     setLoading(true);
@@ -46,12 +48,14 @@ const CommentSection = ({ postId }) => {
     }
   };
 
-  const handleDelete = async (commentId) => {
+  const handleConfirmDelete = async () => {
     try {
-      await deleteComment(commentId);
-      setComments((prev) => prev.filter((c) => c._id !== commentId));
+      await deleteComment(commentToDelete);
+      setComments((prev) => prev.filter((c) => c._id !== commentToDelete));
     } catch (err) {
       console.error("Erro ao excluir comentário:", err);
+    } finally {
+      setCommentToDelete(null);
     }
   };
 
@@ -92,7 +96,7 @@ const CommentSection = ({ postId }) => {
             </div>
             {comment.author?._id === user?.id && (
               <button
-                onClick={() => handleDelete(comment._id)}
+                onClick={() => setCommentToDelete(comment._id)}
                 className="flex items-center gap-1 text-xs text-red-500 hover:underline ml-2"
               >
                 <Trash2 size={12} /> Excluir
@@ -101,6 +105,15 @@ const CommentSection = ({ postId }) => {
           </div>
         ))
       )}
+
+      <ConfirmModal
+        isOpen={!!commentToDelete}
+        title="Excluir comentário"
+        message="Tem certeza que deseja excluir este comentário?"
+        confirmText="Excluir"
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setCommentToDelete(null)}
+      />
     </div>
   );
 };

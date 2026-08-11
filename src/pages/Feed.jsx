@@ -6,9 +6,10 @@ import {
   toggleLike,
   deletePost,
 } from "../services/postService";
+import { LogOut } from "lucide-react";
 import PostCard from "../components/PostCard";
 import AvatarUpload from "../components/AvatarUpload";
-import { LogOut } from "lucide-react";
+import ConfirmModal from "../components/ConfirmModal";
 
 const Feed = () => {
   const { user, logout } = useAuth();
@@ -20,6 +21,7 @@ const Feed = () => {
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const fetchPosts = async (pageNumber = 1) => {
     setLoadingPosts(true);
@@ -95,7 +97,7 @@ const Feed = () => {
             <AvatarUpload />
             <span className="text-sm text-gray-600">Olá, {user?.name}</span>
             <button
-              onClick={logout}
+              onClick={() => setShowLogoutModal(true)}
               className="flex items-center gap-1 text-sm text-red-600 hover:underline"
             >
               <LogOut size={16} /> Sair
@@ -167,6 +169,14 @@ const Feed = () => {
             </div>
           </>
         )}
+        <ConfirmModal
+          isOpen={showLogoutModal}
+          title="Sair da conta"
+          message="Tem certeza que deseja sair?"
+          confirmText="Sair"
+          onConfirm={logout}
+          onCancel={() => setShowLogoutModal(false)}
+        />
       </div>
     </div>
   );
