@@ -12,6 +12,7 @@ import PostCard from "../components/PostCard";
 import AvatarUpload from "../components/AvatarUpload";
 import ConfirmModal from "../components/ConfirmModal";
 import PostSkeleton from "../components/PostSkeleton";
+import { Link } from "react-router-dom";
 
 const Feed = () => {
   const { user, logout } = useAuth();
@@ -108,7 +109,12 @@ const Feed = () => {
           <h1 className="text-2xl font-bold">Feed</h1>
           <div className="flex items-center gap-4">
             <AvatarUpload />
-            <span className="text-sm text-gray-600">Olá, {user?.name}</span>
+            <Link
+              to={`/perfil/${user?.id}`}
+              className="text-sm text-gray-600 hover:underline"
+            >
+              Olá, {user?.name}
+            </Link>
             <button
               onClick={() => setShowLogoutModal(true)}
               className="flex items-center gap-1 text-sm text-red-600 hover:underline"

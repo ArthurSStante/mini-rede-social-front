@@ -92,9 +92,16 @@ const CommentSection = ({ postId }) => {
             className="flex justify-between items-start text-sm mb-2"
           >
             <div>
-              <span className="font-semibold">
-                {comment.author?.name || "Usuário removido"}
-              </span>{" "}
+              {comment.author ? (
+                <Link
+                  to={`/perfil/${comment.author._id}`}
+                  className="font-semibold hover:underline"
+                >
+                  {comment.author.name}
+                </Link>
+              ) : (
+                <span className="font-semibold">Usuário removido</span>
+              )}{" "}
               <span className="text-gray-700">{comment.content}</span>
             </div>
             {comment.author?._id === user?.id && (

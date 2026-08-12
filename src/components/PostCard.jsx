@@ -3,6 +3,7 @@ import { Trash2, Pencil, X, Check } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import CommentSection from "./CommentSection";
 import ConfirmModal from "./ConfirmModal";
+import { Link } from "react-router-dom";
 
 const PostCard = ({ post, onLike, onDelete, onEdit }) => {
   const { user } = useAuth();
@@ -41,9 +42,16 @@ const PostCard = ({ post, onLike, onDelete, onEdit }) => {
     <div className="bg-white rounded-lg shadow p-4 mb-4">
       <div className="flex justify-between items-start mb-2">
         <div>
-          <p className="font-semibold">
-            {post.author?.name || "Usuário removido"}
-          </p>
+          {post.author ? (
+            <Link
+              to={`/perfil/${post.author._id}`}
+              className="font-semibold hover:underline"
+            >
+              {post.author.name}
+            </Link>
+          ) : (
+            <p className="font-semibold">Usuário removido</p>
+          )}
           <p className="text-xs text-gray-500">
             {new Date(post.createdAt).toLocaleString("pt-BR")}
           </p>
