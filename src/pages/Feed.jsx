@@ -8,11 +8,12 @@ import {
   deletePost,
 } from "../services/postService";
 import { LogOut } from "lucide-react";
+import { Link } from "react-router-dom";
 import PostCard from "../components/PostCard";
 import AvatarUpload from "../components/AvatarUpload";
 import ConfirmModal from "../components/ConfirmModal";
 import PostSkeleton from "../components/PostSkeleton";
-import { Link } from "react-router-dom";
+import ThemeToggle from "../components/ThemeToggle";
 
 const Feed = () => {
   const { user, logout } = useAuth();
@@ -103,21 +104,24 @@ const Feed = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-8 transition-colors">
       <div className="max-w-2xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Feed</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            Feed
+          </h1>
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <AvatarUpload />
             <Link
               to={`/perfil/${user?.id}`}
-              className="text-sm text-gray-600 hover:underline"
+              className="text-sm text-gray-600 dark:text-gray-300 hover:underline"
             >
               Olá, {user?.name}
             </Link>
             <button
               onClick={() => setShowLogoutModal(true)}
-              className="flex items-center gap-1 text-sm text-red-600 hover:underline"
+              className="flex items-center gap-1 text-sm text-red-600 dark:text-red-400 hover:underline"
             >
               <LogOut size={16} /> Sair
             </button>
@@ -132,13 +136,13 @@ const Feed = () => {
 
         <form
           onSubmit={handleCreatePost}
-          className="bg-white rounded-lg shadow p-4 mb-6"
+          className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-6"
         >
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="No que você está pensando?"
-            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
             rows={3}
           />
           <button
@@ -157,7 +161,7 @@ const Feed = () => {
             <PostSkeleton />
           </>
         ) : posts.length === 0 ? (
-          <p className="text-center text-gray-500">
+          <p className="text-center text-gray-500 dark:text-gray-400">
             Nenhum post ainda. Seja o primeiro!
           </p>
         ) : (
@@ -176,17 +180,17 @@ const Feed = () => {
               <button
                 onClick={() => fetchPosts(page - 1)}
                 disabled={page <= 1}
-                className="px-3 py-1 bg-white rounded shadow disabled:opacity-50"
+                className="px-3 py-1 bg-white dark:bg-gray-800 dark:text-white rounded shadow disabled:opacity-50"
               >
                 Anterior
               </button>
-              <span className="px-3 py-1">
+              <span className="px-3 py-1 text-gray-700 dark:text-gray-300">
                 Página {page} de {totalPages}
               </span>
               <button
                 onClick={() => fetchPosts(page + 1)}
                 disabled={page >= totalPages}
-                className="px-3 py-1 bg-white rounded shadow disabled:opacity-50"
+                className="px-3 py-1 bg-white dark:bg-gray-800 dark:text-white rounded shadow disabled:opacity-50"
               >
                 Próxima
               </button>

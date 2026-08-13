@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { Pencil, X, Check, ArrowLeft } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import { getUserProfile, updateProfile } from '../services/userService';
-import { toggleLike, deletePost, updatePost } from '../services/postService';
-import PostCard from '../components/PostCard';
-import PostSkeleton from '../components/PostSkeleton';
+import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import { Pencil, X, Check, ArrowLeft } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import { getUserProfile, updateProfile } from "../services/userService";
+import { toggleLike, deletePost, updatePost } from "../services/postService";
+import PostCard from "../components/PostCard";
+import PostSkeleton from "../components/PostSkeleton";
+import ThemeToggle from "../components/ThemeToggle";
 
 const Profile = () => {
   const { id } = useParams();
@@ -15,10 +16,10 @@ const Profile = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState('');
-  const [bio, setBio] = useState('');
+  const [name, setName] = useState("");
+  const [bio, setBio] = useState("");
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const isOwnProfile = loggedUser?.id === id;
 
@@ -29,9 +30,9 @@ const Profile = () => {
       setProfileUser(response.data.user);
       setPosts(response.data.posts);
       setName(response.data.user.name);
-      setBio(response.data.user.bio || '');
+      setBio(response.data.user.bio || "");
     } catch (err) {
-      setError('Erro ao carregar perfil.');
+      setError("Erro ao carregar perfil.");
     } finally {
       setLoading(false);
     }
@@ -45,15 +46,19 @@ const Profile = () => {
     setSaving(true);
     try {
       const response = await updateProfile(name, bio);
-      setProfileUser((prev) => ({ ...prev, name: response.data.name, bio: response.data.bio }));
+      setProfileUser((prev) => ({
+        ...prev,
+        name: response.data.name,
+        bio: response.data.bio,
+      }));
 
       const updatedUser = { ...loggedUser, name: response.data.name };
       setLoggedUser(updatedUser);
-      localStorage.setItem('user', JSON.stringify(updatedUser));
+      localStorage.setItem("user", JSON.stringify(updatedUser));
 
       setIsEditing(false);
     } catch (err) {
-      setError('Erro ao salvar perfil.');
+      setError("Erro ao salvar perfil.");
     } finally {
       setSaving(false);
     }
@@ -61,7 +66,7 @@ const Profile = () => {
 
   const handleCancelEdit = () => {
     setName(profileUser.name);
-    setBio(profileUser.bio || '');
+    setBio(profileUser.bio || "");
     setIsEditing(false);
   };
 
@@ -76,10 +81,10 @@ const Profile = () => {
             ? post.likes.filter((id) => id !== loggedUser.id)
             : [...post.likes, loggedUser.id];
           return { ...post, likes: updatedLikes };
-        })
+        }),
       );
     } catch (err) {
-      setError('Erro ao curtir post.');
+      setError("Erro ao curtir post.");
     }
   };
 
@@ -88,16 +93,18 @@ const Profile = () => {
       await deletePost(postId);
       setPosts((prev) => prev.filter((post) => post._id !== postId));
     } catch (err) {
-      setError('Erro ao excluir post.');
+      setError("Erro ao excluir post.");
     }
   };
 
   const handleEdit = async (postId, newContent) => {
     try {
       const response = await updatePost(postId, newContent);
-      setPosts((prev) => prev.map((post) => (post._id === postId ? response.data : post)));
+      setPosts((prev) =>
+        prev.map((post) => (post._id === postId ? response.data : post)),
+      );
     } catch (err) {
-      setError('Erro ao editar post.');
+      setError("Erro ao editar post.");
     }
   };
 
@@ -116,24 +123,33 @@ const Profile = () => {
       <div className="min-h-screen bg-gray-100 p-8">
         <div className="max-w-2xl mx-auto text-center">
           <p className="text-gray-500">Usuário não encontrado.</p>
-          <Link to="/" className="text-blue-600 hover:underline">Voltar ao feed</Link>
+          <Link to="/" className="text-blue-600 hover:underline">
+            Voltar ao feed
+          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-8">
       <div className="max-w-2xl mx-auto">
-        <Link to="/" className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 mb-4">
-          <ArrowLeft size={16} /> Voltar ao feed
-        </Link>
-
+        <div className="flex justify-between items-center mb-4">
+          <Link
+            to="/"
+            className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+          >
+            <ArrowLeft size={16} /> Voltar ao feed
+          </Link>
+          <ThemeToggle />
+        </div>
         {error && (
-          <p className="bg-red-100 text-red-600 text-sm p-2 rounded mb-4">{error}</p>
+          <p className="bg-red-100 text-red-600 text-sm p-2 rounded mb-4">
+            {error}
+          </p>
         )}
 
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
+        <div className="bg-white rounded-lg shadow p-6 mb-6 dark:bg-gray-800">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-2xl">
@@ -142,9 +158,11 @@ const Profile = () => {
 
               {!isEditing ? (
                 <div>
-                  <h1 className="text-xl font-bold">{profileUser.name}</h1>
-                  <p className="text-gray-600 text-sm mt-1">
-                    {profileUser.bio || 'Sem bio ainda.'}
+                  <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+                    {profileUser.name}
+                  </h1>
+                  <p className="text-gray-600 text-sm mt-1 dark:text-gray-400">
+                    {profileUser.bio || "Sem bio ainda."}
                   </p>
                 </div>
               ) : (
@@ -190,14 +208,14 @@ const Profile = () => {
                 disabled={saving}
                 className="flex items-center gap-1 text-xs px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
               >
-                <Check size={14} /> {saving ? 'Salvando...' : 'Salvar'}
+                <Check size={14} /> {saving ? "Salvando..." : "Salvar"}
               </button>
             </div>
           )}
         </div>
 
-        <h2 className="text-lg font-semibold mb-3">
-          {isOwnProfile ? 'Meus posts' : `Posts de ${profileUser.name}`}
+        <h2 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">
+          {isOwnProfile ? "Meus posts" : `Posts de ${profileUser.name}`}
         </h2>
 
         {posts.length === 0 ? (

@@ -39,20 +39,22 @@ const PostCard = ({ post, onLike, onDelete, onEdit }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-4 mb-4">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-4 transition-colors">
       <div className="flex justify-between items-start mb-2">
         <div>
           {post.author ? (
             <Link
               to={`/perfil/${post.author._id}`}
-              className="font-semibold hover:underline"
+              className="font-semibold text-gray-900 dark:text-white hover:underline"
             >
               {post.author.name}
             </Link>
           ) : (
-            <p className="font-semibold">Usuário removido</p>
+            <p className="font-semibold text-gray-900 dark:text-white">
+              Usuário removido
+            </p>
           )}
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
             {new Date(post.createdAt).toLocaleString("pt-BR")}
           </p>
         </div>
@@ -61,13 +63,13 @@ const PostCard = ({ post, onLike, onDelete, onEdit }) => {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsEditing(true)}
-              className="flex items-center gap-1 text-xs text-blue-500 hover:underline"
+              className="flex items-center gap-1 text-xs text-blue-500 dark:text-blue-400 hover:underline"
             >
               <Pencil size={14} /> Editar
             </button>
             <button
               onClick={() => setShowDeleteModal(true)}
-              className="flex items-center gap-1 text-xs text-red-500 hover:underline"
+              className="flex items-center gap-1 text-xs text-red-500 dark:text-red-400 hover:underline"
             >
               <Trash2 size={14} /> Excluir
             </button>
@@ -80,13 +82,13 @@ const PostCard = ({ post, onLike, onDelete, onEdit }) => {
           <textarea
             value={editContent}
             onChange={(e) => setEditContent(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
             rows={3}
           />
           <div className="flex justify-end gap-2 mt-2">
             <button
               onClick={handleCancelEdit}
-              className="flex items-center gap-1 text-xs px-3 py-1 rounded border border-gray-300 hover:bg-gray-100"
+              className="flex items-center gap-1 text-xs px-3 py-1 rounded border border-gray-300 dark:border-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               <X size={14} /> Cancelar
             </button>
@@ -99,15 +101,17 @@ const PostCard = ({ post, onLike, onDelete, onEdit }) => {
           </div>
         </div>
       ) : (
-        <p className="text-gray-800 mb-3">{post.content}</p>
+        <p className="text-gray-800 dark:text-gray-200 mb-3">{post.content}</p>
       )}
 
       <div className="flex items-center gap-4">
         <button
           onClick={handleLikeClick}
           className={`text-sm flex items-center gap-1 ${
-            isLiked ? "text-red-600" : "text-gray-500"
-          } hover:text-red-600`}
+            isLiked
+              ? "text-red-600 dark:text-red-400"
+              : "text-gray-500 dark:text-gray-400"
+          } hover:text-red-600 dark:hover:text-red-400`}
         >
           <span
             className={
@@ -121,7 +125,7 @@ const PostCard = ({ post, onLike, onDelete, onEdit }) => {
 
         <button
           onClick={() => setShowComments((prev) => !prev)}
-          className="text-sm text-gray-500 hover:text-blue-600"
+          className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
         >
           💬 {showComments ? "Ocultar comentários" : "Ver comentários"}
         </button>

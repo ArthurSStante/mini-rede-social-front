@@ -60,14 +60,14 @@ const CommentSection = ({ postId }) => {
   };
 
   return (
-    <div className="mt-3 border-t pt-3">
+    <div className="mt-3 border-t border-gray-200 dark:border-gray-700 pt-3">
       <form onSubmit={handleSubmit} className="flex gap-2 mb-3">
         <input
           type="text"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Escreva um comentário..."
-          className="flex-1 border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
           type="submit"
@@ -80,11 +80,13 @@ const CommentSection = ({ postId }) => {
 
       {loading ? (
         <div className="space-y-2 animate-pulse">
-          <div className="h-3 bg-gray-200 rounded w-3/4"></div>
-          <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+          <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+          <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
         </div>
       ) : comments.length === 0 ? (
-        <p className="text-xs text-gray-500">Nenhum comentário ainda.</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          Nenhum comentário ainda.
+        </p>
       ) : (
         comments.map((comment) => (
           <div
@@ -95,19 +97,23 @@ const CommentSection = ({ postId }) => {
               {comment.author ? (
                 <Link
                   to={`/perfil/${comment.author._id}`}
-                  className="font-semibold hover:underline"
+                  className="font-semibold text-gray-900 dark:text-white hover:underline"
                 >
                   {comment.author.name}
                 </Link>
               ) : (
-                <span className="font-semibold">Usuário removido</span>
+                <span className="font-semibold text-gray-900 dark:text-white">
+                  Usuário removido
+                </span>
               )}{" "}
-              <span className="text-gray-700">{comment.content}</span>
+              <span className="text-gray-700 dark:text-gray-300">
+                {comment.content}
+              </span>
             </div>
             {comment.author?._id === user?.id && (
               <button
                 onClick={() => setCommentToDelete(comment._id)}
-                className="flex items-center gap-1 text-xs text-red-500 hover:underline ml-2"
+                className="flex items-center gap-1 text-xs text-red-500 dark:text-red-400 hover:underline ml-2"
               >
                 <Trash2 size={12} /> Excluir
               </button>
