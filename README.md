@@ -11,16 +11,16 @@ Interface de uma rede social simples: feed de posts, curtidas, comentários, edi
 ## 📸 Screenshots
 
 ### Login
-![Tela de login](./screenshots/login.png)
+![Tela de login](./screenshots/Login.png)
 
 ### Feed
-![Tela do feed](./screenshots/feed.png)
+![Tela do feed](./screenshots/Feed.png)
 
 ### Perfil
 ![Tela de perfil](./screenshots/perfil.png)
 
 ### Modal Exclusao
-![Tela do Modal de exclusao](./screenshots/modal-Exclusao.png)
+![Tela do Modal de exclusao](./screenshots/Modal-Exclusao.png)
 
 ### Dark mode
 ![Dark mode](./screenshots/dark-mode.png)
