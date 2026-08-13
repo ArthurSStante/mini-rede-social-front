@@ -58,7 +58,7 @@ npm install
 npm run dev
 \`\`\`
 
-> ⚠️ É necessário que a [API] esteja rodando localmente na porta 5000 (ou ajustar a `baseURL` em `src/services/api.js`).
+> ⚠️ É necessário que a API esteja rodando localmente na porta 5000 (ou ajustar a `baseURL` em `src/services/api.js`).
 
 ## 📌 Sobre o projeto
 
