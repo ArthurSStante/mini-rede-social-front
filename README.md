@@ -50,7 +50,7 @@ Interface de uma rede social simples: feed de posts, curtidas, comentários, edi
 ## 🔧 Como rodar localmente
 
 \`\`\`bash
-git clone LINK_DO_REPO_FRONT
+git clone [LINK_DO_REPO_FRONT](https://github.com/ArthurSStante/mini-rede-social-front)
 cd mini-rede-social-front
 
 npm install
@@ -58,7 +58,7 @@ npm install
 npm run dev
 \`\`\`
 
-> ⚠️ É necessário que a [API](LINK_DO_REPO_API) esteja rodando localmente na porta 5000 (ou ajustar a `baseURL` em `src/services/api.js`).
+> ⚠️ É necessário que a [API]([LINK_DO_REPO_API](https://github.com/ArthurSStante/mini-rede-social-api)) esteja rodando localmente na porta 5000 (ou ajustar a `baseURL` em `src/services/api.js`).
 
 ## 📌 Sobre o projeto
 
