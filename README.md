@@ -51,6 +51,7 @@ Interface de uma rede social simples: feed de posts, curtidas, comentários, edi
 
 ```bash
 git clone [LINK_DO_REPO_FRONT](https://github.com/ArthurSStante/mini-rede-social-front)
+
 cd mini-rede-social-front
 
 npm install
