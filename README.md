@@ -20,7 +20,7 @@ Interface de uma rede social simples: feed de posts, curtidas, comentários, edi
 ![Tela de perfil](./screenshots/perfil.png)
 
 ### Modal Exclusao
-![Tela do Modal de exclusao](./screenshots//Modal-Exclusao.png)
+![Tela do Modal de exclusao](./screenshots/modal-Exclusao.png)
 
 ### Dark mode
 ![Dark mode](./screenshots/dark-mode.png)
