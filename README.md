@@ -6,7 +6,9 @@ Interface de uma rede social simples: feed de posts, curtidas, comentários, edi
 
 ## 🚀 Deploy
 
-> Em breve — deploy ainda não realizado.
+🔗 **Aplicação em produção:** [https://mini-rede-social-front.vercel.app](LINK_REAL_DA_VERCEL)
+
+> ⚠️ A API consumida por este projeto está hospedada no plano gratuito do Render — a primeira requisição após um período de inatividade pode demorar até 50 segundos.
 
 ## 📸 Screenshots
 
